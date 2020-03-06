@@ -4,7 +4,6 @@ if [[ $1 == cpu ]]; then
 
     cpu="$(cat /proc/stat | grep -w cpu | cut --complement -f1 -d' ')"
     timesum="$(echo $cpu | awk -F ' ' 'BEGIN {sum=0} {for (i = 1; i <= NF; i++) sum+=$i} END {print sum}')"
-
     user="$(echo $cpu | cut -f1 -d' ')"
     nice="$(echo $cpu | cut -f2 -d' ')"
     system="$(echo $cpu | cut -f3 -d' ')"
