@@ -1,0 +1,56 @@
+#!/bin/bash
+
+if [[ $1 == cpu ]]; then
+
+    cpu="$(cat /proc/stat | grep -w cpu | cut --complement -f1 -d' ')"
+    timesum="$(echo $cpu | awk -F ' ' 'BEGIN {sum=0} {for (i = 1; i <= NF; i++) sum+=$i} END {print sum}')"
+
+    user="$(echo $cpu | cut -f1 -d' ')"
+    nice="$(echo $cpu | cut -f2 -d' ')"
+    system="$(echo $cpu | cut -f3 -d' ')"
+    idle="$(echo $cpu | cut -f4 -d' ')"
+    iowait="$(echo $cpu | cut -f5 -d' ')"
+    irq="$(echo $cpu | cut -f6 -d' ')"
+    softirq="$(echo $cpu | cut -f7 -d' ')"
+    stolen="$(echo $cpu | cut -f8 -d' ')"
+    guest="$(echo $cpu | cut -f9 -d' ')"
+    guest_nice="$(echo $cpu | cut -f10 -d' ')"
+    echo system.cpu.idle $( echo "scale=1; ((($idle * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
+    echo system.cpu.user $( echo "scale=1; ((($user * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
+    echo system.cpu.guest $( echo "scale=1; ((($guest * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
+    echo system.cpu.iowait $( echo "scale=1; ((($iowait * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
+    echo system.cpu.stolen $( echo "scale=1; ((($stolen * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
+    echo system.cpu.system $( echo "scale=1; ((($system * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
+
+elif [[ $1 == mem ]]; then
+
+    #virtualtotal=$( cat /proc/meminfo | grep MemTotal | cut -f9 -d ' ' )
+    #virtualfree=$( cat /proc/meminfo | grep MemFree | cut -f10 -d ' ' )
+    #virtualshared=$( cat /proc/meminfo | grep MemTotal | cut -f9 -d ' ' )
+    #swaptotal=$( cat /proc/meminfo | grep SwapTotal | cut -f8 -d ' ' )
+    #swapfree=$( cat /proc/meminfo | grep SwapFree | cut -f9 -d ' ' )  
+    #echo virtual total $virtualtotal
+    #echo virtual used $((virtualtotal - virtualfree))
+    #echo virtual free $virtualfree
+    #echo virtual shared $virtualshared
+    #echo swap total $swaptotal
+    #echo swap used  $((swaptotal - swapfree))
+    #echo swap free $swapfree
+    
+    virtualtotal=$( free -k | grep Mem | cut -f9 -d ' ' )
+    virtualused=$( free -k | grep Mem | cut -f14 -d ' ' )
+    virtualfree=$( free -k | grep Mem | cut -f19 -d ' ' )
+    virtualshared=$( free -k | grep Mem | cut -f26 -d ' ' )
+    swaptotal=$( free -k | grep Swap | cut -f8 -d ' ' )
+    swapfree=$( free -k | grep Swap | cut -f24 -d ' ' ) 
+    swapused=$( free -k | grep Swap | cut -f19 -d ' ' )
+    echo virtual total $virtualtotal
+    echo virtual used $virtualused
+    echo virtual free $virtualfree
+    echo virtual shared $virtualshared
+    echo swap total $swaptotal
+    echo swap used  $swapused
+    echo swap free $swapfree
+else
+    echo "Usage: accepted params cpu or memory"
+fi
