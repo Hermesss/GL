@@ -5,7 +5,7 @@ To build:
 
 To use:
 
-```docker run -e system=cpu metrics``` to monitor CPU usage
+```docker run -e system=cpu metrics``` to monitor CPU usage \
 ```docker run -e system=mem metrics``` to monitor MEM usage
 
 
