@@ -9,7 +9,7 @@ To use:
 ```docker run -e system=mem metrics``` to monitor MEM usage
 
 
-Why use this Docker image?
+Why use this Docker image? \
 Provides memory and cpu stats.
 Enables monitoring of the system resources without need to install additional software on different distros.
 
