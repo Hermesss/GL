@@ -29,5 +29,5 @@ elif [[ $1 == mem ]]; then
     "swap used " $3 "\n" "swap free " $4 "\n" }'
    
 else
-    echo "Usage: accepted params cpu or mem"
+    echo -e "Error:Undefined system to provide metrics. Please choose <cpu> or <mem>.\nUsage: docker run -e system=cpu/mem metrics"
 fi
