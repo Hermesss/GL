@@ -22,34 +22,12 @@ if [[ $1 == cpu ]]; then
     echo system.cpu.system $( echo "scale=1; ((($system * 100 ) / $timesum))"  | bc | awk '{printf "%.1f", $0}' )
 
 elif [[ $1 == mem ]]; then
-
-    #virtualtotal=$( cat /proc/meminfo | grep MemTotal | cut -f9 -d ' ' )
-    #virtualfree=$( cat /proc/meminfo | grep MemFree | cut -f10 -d ' ' )
-    #virtualshared=$( cat /proc/meminfo | grep MemTotal | cut -f9 -d ' ' )
-    #swaptotal=$( cat /proc/meminfo | grep SwapTotal | cut -f8 -d ' ' )
-    #swapfree=$( cat /proc/meminfo | grep SwapFree | cut -f9 -d ' ' )  
-    #echo virtual total $virtualtotal
-    #echo virtual used $((virtualtotal - virtualfree))
-    #echo virtual free $virtualfree
-    #echo virtual shared $virtualshared
-    #echo swap total $swaptotal
-    #echo swap used  $((swaptotal - swapfree))
-    #echo swap free $swapfree
-    
-    virtualtotal=$( free -k | grep Mem | cut -f9 -d ' ' )
-    virtualused=$( free -k | grep Mem | cut -f14 -d ' ' )
-    virtualfree=$( free -k | grep Mem | cut -f19 -d ' ' )
-    virtualshared=$( free -k | grep Mem | cut -f26 -d ' ' )
-    swaptotal=$( free -k | grep Swap | cut -f8 -d ' ' )
-    swapfree=$( free -k | grep Swap | cut -f24 -d ' ' ) 
-    swapused=$( free -k | grep Swap | cut -f19 -d ' ' )
-    echo virtual total $virtualtotal
-    echo virtual used $virtualused
-    echo virtual free $virtualfree
-    echo virtual shared $virtualshared
-    echo swap total $swaptotal
-    echo swap used  $swapused
-    echo swap free $swapfree
+   
+    free -k | awk '/Mem:/ {printf "virtual total " $2 "\n" \
+    "virtual used " $3 "\n" "virtual shared " $5 "\n" }'
+    free -k | awk '/Swap:/ {printf "swap total " $2 "\n" \
+    "swap used " $3 "\n" "swap free " $4 "\n" }'
+   
 else
-    echo "Usage: accepted params cpu or memory"
+    echo "Usage: accepted params cpu or mem"
 fi
