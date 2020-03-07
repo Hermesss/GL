@@ -24,7 +24,7 @@ if [[ $1 == cpu ]]; then
 elif [[ $1 == mem ]]; then
    
     free -k | awk '/Mem:/ {printf "virtual total " $2 "\n" \
-    "virtual used " $3 "\n" "virtual shared " $5 "\n" }'
+    "virtual used " $3 "\n" "virtual free " $4 "\n" "virtual shared " $5 "\n" }'
     free -k | awk '/Swap:/ {printf "swap total " $2 "\n" \
     "swap used " $3 "\n" "swap free " $4 "\n" }'
    
