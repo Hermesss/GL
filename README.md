@@ -1,12 +1,14 @@
 To build:
 
-1. Clone current repo ```git clone https://github.com/Hermesss/GL.git```
-2. Build docker image using dockerfile from the repo ```docker build -f /PATH/TO/THE/dockerfile -t metrics```
+1. Clone current repo \
+```git clone https://github.com/Hermesss/GL.git```
+2. Build docker image using dockerfile from the repo \
+ ```docker build /PATH/TO/THE/CLONED/REPO -t metrics```
 
 To use:
 
-```docker run -e system=cpu metrics``` to monitor CPU usage \
-```docker run -e system=mem metrics``` to monitor MEM usage
+```docker run --rm -e system=cpu metrics``` to monitor CPU usage \
+```docker run --rm -e system=mem metrics``` to monitor MEM usage
 
 
 Why use this Docker image? \
